@@ -1,0 +1,140 @@
+import {Friends,Series, users,products, Food } from '../db/dbConnector.js'
+
+/**
+* GraphQL Resolvers 
+**/
+
+export const resolvers={
+    Query:{
+            getAllFriend:(root)=>{
+                return new Promise((resolve,reject)=>{
+                    Friends.find((err,friends)=>{
+                        if(err) reject(err);
+                        else resolve(friends);
+                    })
+                })
+            },
+            getAllFoodItems:(root)=>{
+                return new Promise((resolve,reject)=>{
+                    Food.find((err,foodItems)=>{
+                        if(err) reject(err);
+                        else resolve(foodItems);
+                    })
+                })
+            },
+            findASeries:(root,{id})=>{
+                return new Promise((resolve,reject)=>{
+                    Series.findOne({_id:id},(err,series)=>{
+                    if(err) reject(err);
+                    else resolve(series);
+                })
+            })
+        }
+    },
+    Mutation:{
+        createFriend: (root,{ input }) => {
+            const newFriend=new Friends({
+                firstName : input.firstName,
+                lastName : input.lastName,
+                gender : input.gender,
+                language : input.language,
+                age : input.age,
+                email : input.email,
+                contacts:input.contacts
+            });
+
+            newFriend.id=newFriend._id;
+
+            return new Promise((resolve,reject)=>{
+                newFriend.save((err)=>{
+                    if(err) reject(err);
+                    else resolve(newFriend);
+                })
+            })
+        },
+        addASeries:(root,{series})=>{
+            const newSeries=new Series({
+                seriesName:series.seriesName,
+                year:series.year,
+                rating:series.rating
+            });
+            
+            newSeries.id=series._id;
+            
+            return new Promise((resolve,reject)=>{
+                newSeries.save(err=>{
+                    if(err) reject(err);
+                    resolve(newSeries);
+                })
+            })
+        },
+        createuser: (root,{ user }) => {
+            const newuser=new users({
+                firstName : user.firstName,
+                lastName : user.lastName,
+                gender : user.gender,
+                age : user.age,
+                email : user.email,
+                mobilenumber:user.mobilenumber
+            });
+
+            newuser.id=newuser._id;
+
+            return new Promise((resolve,reject)=>{
+                newuser.save((err)=>{
+                    if(err) reject(err);
+                    else resolve(newuser);
+                })
+            })
+        },
+ createproduct: (root,{ product }) => {
+            const newproduct=new products({
+                computers : product.computers,
+                mobiles : product.mobiles,
+                cameras : product.cameras,
+                houseHolds : product.houseHolds,
+            });
+
+            newproduct.id=newproduct._id;
+
+            return new Promise((resolve,reject)=>{
+                newproduct.save((err)=>{
+                    if(err) reject(err);
+                    else resolve(newproduct);
+                })
+            })
+        },
+createFood: (root,{ food }) => {
+            const newFood = new Food({
+                name : food.name,
+                desc : food.desc,
+                category : food.category,
+                fav : food.fav,
+                price : food.price,
+                qty : food.qty,
+                status : food.status,
+                mealtype: food.mealtype
+
+            });
+
+            newFood.id=newFood._id;
+
+            return new Promise((resolve,reject)=>{
+                newFood.save((err)=>{
+                    if(err) reject(err);
+                    else resolve(newFood);
+                })
+            })
+        },
+
+        updateFood: (root,{ id, food }) => {
+            return new Promise((resolve,reject)=>{
+                Food.updateOne({_id:id},food, (err,foodData)=>{
+                    if(err) reject(err);
+                    else resolve(foodData);
+                })
+            })
+        },
+
+    },
+};

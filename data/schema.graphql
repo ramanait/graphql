@@ -1,0 +1,149 @@
+import { gql } from 'apollo-server-express';
+
+export const typeDefs = gql`
+    type Friend{
+       id:ID
+       firstName:String
+       lastName:String
+       gender:Gender
+       language:String
+       age:Int
+       email: String
+       contacts:[Contact]
+    }
+
+    type Contact{
+        firstName:String
+        lastName:String
+    }
+type Food{
+    id:ID
+    name : String
+    desc:String
+    category:[String]
+    fav:[String]
+    price:Int
+    qty:Int
+    status: statusEnum
+    mealtype: mealtypeEnum
+
+    }
+
+enum statusEnum {
+  active
+  inactive
+  suspended
+}
+
+enum mealtypeEnum {
+  veg
+  nonVeg
+  
+}
+
+type product{
+       id:ID
+        computers: String
+        mobiles:String
+        cameras:String
+       houseHolds:String
+    
+    }
+
+ type user{
+       id:ID
+       firstName:String
+       lastName:String
+       gender:Gender
+       age:Int
+       email: String
+       mobilenumber:String
+    }
+    type Series {
+        id:ID
+        seriesName:String
+        year:Int
+        rating:Rating
+    }
+
+    enum Rating{
+        ONE
+        TWO
+        THREE
+    }
+
+    enum Gender{
+        MALE
+        FEMALE
+        OTHER
+    }
+
+    input SeriesInput{
+        id:ID
+        seriesName:String
+        year:Int
+        rating:Rating
+    }
+
+    input FriendInput{
+        id:ID
+        firstName:String
+        lastName:String
+        gender:Gender
+        language:String
+        age:Int
+        email: String
+        contacts:[ContactInput]
+    }
+    input FoodInput{
+        id:ID
+        name:String
+        desc:String
+        category:[String]
+        fav:[String]
+        price:Int
+        qty:Int
+        status:statusEnum
+        mealtype:mealtypeEnum
+    }
+    input productInput{
+       id:ID
+        computers: String
+        mobiles:String
+        cameras:String
+       houseHolds:String
+    
+    }
+      input userInput{
+        id:ID
+        firstName:String
+        lastName:String
+        gender:Gender
+        age:Int
+        email: String
+        mobilenumber:String
+    }
+
+    input ContactInput{
+        firstName:String
+        lastName:String
+    }
+
+    type Query{
+        getAllFriend:[Friend]
+        getAllFoodItems:[Food]
+        findASeries(id:ID):Series
+    }
+
+    type Mutation{
+        createFriend(input:FriendInput):Friend
+        createFood(food:FoodInput):Food
+        updateFood(id:ID, food:FoodInput):Food
+        addASeries(series:SeriesInput):Series
+        createuser(user:userInput):user
+        createproduct(product:productInput):product
+    }
+
+`;
+
+
