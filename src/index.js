@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
 });
 
 app.listen({ port: PORT }, () => {
-    console.log(`Server is running at http://localhost:8081${server.graphqlPath}`);
+    console.log(`Server is running at http://localhost:8080${server.graphqlPath}`);
 });
 
 
